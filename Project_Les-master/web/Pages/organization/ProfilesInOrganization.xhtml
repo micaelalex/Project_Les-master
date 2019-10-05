@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListOrganizationTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <!--
+                A secção seguinte é apenas utilizada para debugging e não deve ser
+                utilizada na versão final.
+            -->
+            <h4>Debug section</h4>
+            <h:panelGroup>
+                <h:form id="debugOrganization">
+                    <b:inputText id="debugOrgName" style="width: 20%;"/>
+                    <b:commandButton type="button" class="btn btn-basic">
+                            <b:iconAwesome value="fa-plus-circle" />
+                            <span style=" text-align:center;"><b>Select Organization</b></span>
+                    </b:commandButton>
+                </h:form>
+            </h:panelGroup>
+            <hr/>
+            <!--
+                
+            -->
+            <h3>[Organization name]</h3>                                        <!-- Nome da organização -->
+            <p>
+                A list containing all accounts with the same organization as you.
+            </p>
+            <!--
+                Tabela que mostra as contas que pertencem á mesma organização 
+                que o utilizador pertence.
+            -->
+            <h:outputText escape="false" value="#{bundle.ListOrganizationEmpty}" rendered="#{organizationController.accountsSameOrganization().rowCount == 0}"/>
+            <h:panelGroup rendered="#{organizationController.accountsSameOrganization().rowCount > 0}" >
+                <b:dataTable value="#{organizationController.accountsSameOrganization()}" var="items" select="true">
+                    <b:dataTableColumn value="#{items.id}" label="ID"/>
+                    <b:dataTableColumn value="#{items.userName}" label="Username"/>
+                    <b:dataTableColumn value="#{items.cc}" label="CC"/>
+                    <b:dataTableColumn value="#{items.password}" />
+                    <b:dataTableColumn value="#{items.accountName}" label="Account Name"/>
+                    <b:dataTableColumn value="#{items.birthday}" label="Birthday"/>
+                    <b:dataTableColumn value="#{items.email}" />
+                    <b:dataTableColumn value="#{items.salary}" />
+                    <b:dataTableColumn value="#{items.address}" />
+                </b:dataTable>
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

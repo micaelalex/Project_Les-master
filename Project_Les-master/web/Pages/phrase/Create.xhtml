@@ -1,0 +1,222 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    
+                        <!-- Modal Criar-->
+    <b:modal id="modalFormCreate" title="Create Phrase" styleClass="formCreatedModalClass" headerClass="headerModal" headerStyle="headerModal"
+             closable="false"
+             closeOnEscape="false"
+             backdrop="false">
+        <b:form horizontal="true" styleClass="formCreation" auto-update="true">
+            
+            <b:row>
+                
+                <h:inputHidden id="id" value="1" required="true" requiredMessage="#{bundle.CreateAccountRequiredMessage_id}"/>
+                
+            </b:row>
+            <!-- Account data -->
+            <b:row>
+                <b:column medium-screen="7">
+                    <b:inputText labelStyle="text-align:left;" label="Username:" colMd="8" labelColMd="4" id="userName" value="#{phraseController.toCreate.userName}" title="#{bundle.CreatePhraseTitle_userName}" required="true" requiredMessage="#{bundle.CreatePhraseRequiredMessage_userName}"/>
+                
+                </b:column>
+                <b:column medium-screen="5">
+                    <b:message for="@previous" auto-update="true" />
+                </b:column>
+            </b:row>
+            
+            <b:row>
+                <b:column medium-screen="7">
+                    <b:selectOneMenu labelStyle="text-align:left;" colMd="8" labelColMd="4" label="Subject:" id="accountSubject" value="#{phraseController.toCreate.accountSubject}" title="#{bundle.CreatePhraseTitle_accountSubject}" required="true" requiredMessage="#{bundle.CreatePhraseRequiredMessage_accountSubject}">
+                        <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                    </b:selectOneMenu>
+                </b:column>
+                <b:column medium-screen="5">
+                    <b:message for="@previous" auto-update="true" />
+                </b:column>
+            </b:row>
+            
+            <b:row>
+                <b:column medium-screen="7">
+                    <b:selectOneMenu labelStyle="text-align:left;" colMd="8" labelColMd="4" label="Action:" id="actionID" value="#{phraseController.toCreate.actionID}" title="#{bundle.CreatePhraseTitle_actionID}" required="true" requiredMessage="#{bundle.CreatePhraseRequiredMessage_actionID}" >
+                        <f:selectItems value="#{actionController.itemsAvailableSelectOne}"/>
+                    </b:selectOneMenu>
+                </b:column>
+                <b:column medium-screen="5">
+                    <b:message for="@previous" auto-update="true" />
+                </b:column>    
+            </b:row>
+            
+            <b:row>
+                <b:column medium-screen="7">
+                    <b:selectOneMenu labelStyle="text-align:left;" colMd="8" labelColMd="4" label="Receiver:" id="accountReceiver" value="#{phraseController.toCreate.accountReceiver}" title="#{bundle.CreatePhraseTitle_accountReceiver}" >
+                        <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                    </b:selectOneMenu>
+                </b:column>
+                <b:column medium-screen="5">
+                    <b:message for="@previous" auto-update="true" />
+                </b:column>
+            </b:row>
+            
+            <b:row>
+                <b:column medium-screen="7">
+                    <b:selectOneMenu labelStyle="text-align:left;" colMd="8" labelColMd="4" label="Artefact:" id="artefactID" value="#{phraseController.toCreate.artefactID}" title="#{bundle.CreatePhraseTitle_artefactID}" >
+                        <f:selectItems value="#{artefactController.itemsAvailableSelectOne}"/>
+                    </b:selectOneMenu>
+                </b:column>
+                
+                
+            </b:row>
+
+            <b:row>
+                <b:column>
+                    <b:commandButton largeScreen="half"  value="Cancel" 
+                                     onclick=" $('.formCreatedModalClass').modal('hide'); $('.formCancelCreatedModalClass').modal('show'); return false;  "/>
+                    <b:commandButton largeScreen="half" update="@none" onclick="$('.formConfirmCreatedModalClass').modal('show');"
+                                     value="Create and Save" look="primary"
+                                     oncomplete="if(!validationFailed) { $('.formCreatedModalClass').modal('hide'); location.reload() } "
+                                     action="#{phraseController.create}"
+                                     />
+                </b:column>
+            </b:row>
+            <b:fetchBeanInfos />
+            
+        </b:form>
+    </b:modal>
+
+
+<b:modal id="modalCancelCreate" title="Cancel creation?" styleClass="formCancelCreatedModalClass"
+             closable="false"
+             closeOnEscape="false"
+             backdrop="false">
+        <b:form auto-update="true">
+            <p>If you continue, you will lose creation. Continue?</p>
+            
+            <b:row>
+                <b:column>
+                    <b:commandButton largeScreen="half"  value="Cancel" onclick="$('.formCancelCreatedModalClass').modal('hide'); $('.formCreatedModalClass').modal('show'); return false;"/>
+                    <b:commandButton largeScreen="half"
+                                     value="Continue" look="danger"
+                                     action="#{accountController.prepareList}" immediate="true" />
+                    
+                </b:column>
+            </b:row>
+            <b:fetchBeanInfos />
+        </b:form>
+    </b:modal>
+    
+    <!-- FIM MODAL DE CANCELAR CRIACAO -->
+    
+    
+    <!-- INICIO MODAL DE CONFIRMAR CRIACAO -->
+    
+    <b:modal id="modalConfirmCreate" title="Confirm creation?" styleClass="formConfirmCreatedModalClass"
+             closable="false"
+             closeOnEscape="false"
+             backdrop="false">
+        <b:form auto-update="true">
+            <p>Do you want to confirm phrase creation?</p>
+            
+            <b:row>
+                <b:column>
+                    <b:commandButton largeScreen="half"  value="Cancel" onclick="$('.formCancelCreatedModalClass').modal('hide'); $('.formCreatedModalClass').modal('show'); return false;"/>
+                    <b:commandButton type="reset" largeScreen="half" update="@all"
+                                     value="Confirm" look="success"
+                                     onclick=" $('.formCancelCreatedModalClass').modal('hide')  "/>
+                    
+                    
+                </b:column>
+            </b:row>
+            <b:fetchBeanInfos />
+        </b:form>
+    </b:modal>
+    
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Create New Phrase 
+                    <span>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">
+                                <!--&times;-->
+                            </span>
+                        </button>
+                    </span>
+                </h5>
+            </div>
+            <h:form>
+                <div class="modal-body">
+                 <b:row>
+
+                    <h:inputHidden id="id" value="1" required="true" requiredMessage="#{bundle.CreateAccountRequiredMessage_id}"/>
+
+                </b:row>
+
+                <b:row>
+                    <b:column medium-screen="7">
+                        <b:inputText labelStyle="text-align:left;" label="Username:" colMd="8" labelColMd="4" id="userName" value="#{phraseController.toCreate.userName}" title="#{bundle.CreatePhraseTitle_userName}" required="true" requiredMessage="#{bundle.CreatePhraseRequiredMessage_userName}"/>
+
+                    </b:column>
+                    <b:column medium-screen="5">
+                        <b:message for="@previous" auto-update="true" />
+                    </b:column>
+                </b:row>
+
+                <b:row>
+                    <b:column medium-screen="7">
+                        <b:selectOneMenu labelStyle="text-align:left;" colMd="8" labelColMd="4" label="Subject:" id="accountSubject" value="#{phraseController.toCreate.accountSubject}" title="#{bundle.CreatePhraseTitle_accountSubject}" required="true" requiredMessage="#{bundle.CreatePhraseRequiredMessage_accountSubject}">
+                            <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                        </b:selectOneMenu>
+                    </b:column>
+                    <b:column medium-screen="5">
+                        <b:message for="@previous" auto-update="true" />
+                    </b:column>
+                </b:row>
+
+                <b:row>
+                    <b:column medium-screen="7">
+                        <b:selectOneMenu labelStyle="text-align:left;" colMd="8" labelColMd="4" label="Action:" id="actionID" value="#{phraseController.toCreate.actionID}" title="#{bundle.CreatePhraseTitle_actionID}" required="true" requiredMessage="#{bundle.CreatePhraseRequiredMessage_actionID}" >
+                            <f:selectItems value="#{actionController.itemsAvailableSelectOne}"/>
+                        </b:selectOneMenu>
+                    </b:column>
+                    <b:column medium-screen="5">
+                        <b:message for="@previous" auto-update="true" />
+                    </b:column>    
+                </b:row>
+
+                <b:row>
+                    <b:column medium-screen="7">
+                        <b:selectOneMenu labelStyle="text-align:left;" colMd="8" labelColMd="4" label="Receiver:" id="accountReceiver" value="#{phraseController.toCreate.accountReceiver}" title="#{bundle.CreatePhraseTitle_accountReceiver}" >
+                            <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                        </b:selectOneMenu>
+                    </b:column>
+                    <b:column medium-screen="5">
+                        <b:message for="@previous" auto-update="true" />
+                    </b:column>
+                </b:row>
+                </div>
+                <div class="modal-footer">
+                    <b:button value="Cancel" dismiss="modal" />
+                    <b:commandButton class="btn btn-basic" look="info" style="margin-right: 4px;" action="#{phraseController.create}">
+                        <span ><b:iconAwesome value="fas fa-edit"/> </span>
+                        <span style="text-align:center;"><b>Save</b></span>
+                    </b:commandButton>
+                </div>
+            </h:form> 
+          </div>
+        </div>
+      </div>
+                    
+                    <b:modal id="exampleModal" title="Modal Example" styleClass="modalPseudoClass">
+                        <f:facet name="footer">
+                          <b:button value="Close" dismiss="modal" />
+                          <b:button value="Ok" look="primary" dismiss="modal" />
+                        </f:facet>
+                    </b:modal>
+
+</ui:composition>

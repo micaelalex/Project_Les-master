@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateProductTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <!-- BEGINNING OF PRODUCT CREATION -->
+                <h:panelGrid columns="2">
+                    
+                    <h:outputLabel value="#{bundle.CreateProductLabel_name}" for="name" />
+                    <h:inputText id="name" value="#{productController.selected.name}" title="#{bundle.CreateProductTitle_name}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateProductLabel_description}" for="description" />
+                    <h:inputTextarea id="description" value="#{productController.selected.description}" title="#{bundle.CreateProductTitle_description}" rows="4" cols="40" />
+                    
+                    <h:outputLabel value="#{bundle.CreateProductLabel_creationDate}" for="creationDate" />
+                    <h:inputText id="creationDate" value="#{productController.selected.creationDate}" title="#{bundle.CreateProductTitle_creationDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    
+                    <h:outputLabel value="#{bundle.CreateProductLabel_type}" for="type" />
+                    <h:inputText id="type" value="#{productController.selected.type}" title="#{bundle.CreateProductTitle_type}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateProductLabel_accountID}" for="accountID" />
+                    <h:selectOneMenu id="accountID" value="#{productController.selected.accountID}" title="#{bundle.CreateProductTitle_accountID}" required="true" requiredMessage="#{bundle.CreateProductRequiredMessage_accountID}">
+                        <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <!-- END OF PRODUCT CREATION -->
+                <br />
+                <br />
+                <!-- BEGINNING BOTTOM BUTTONS -->
+                <h:panelGroup layout="block" styleClass="mb16 mt16">
+                    <!-- Confirm creation button -->
+                    <b:commandButton class="btn btn-basic" styleClass="mr4" action="#{productController.create}">
+                        <span ><b:iconAwesome value="fa-check" /> </span>
+                        <span style="text-align:center;"><b>Create</b></span>
+                    </b:commandButton>
+                    <b:commandButton class="btn btn-basic" styleClass="mr4" action="#{productController.prepareList}" immediate="true">
+                        <span ><b:iconAwesome value="fa-home" /> </span>
+                        <span style="text-align:center;"><b>Back</b></span>
+                    </b:commandButton>
+                </h:panelGroup>
+                <!-- END OF BOTTOM BUTTONS -->
+            </h:form>      
+        </ui:define>
+    </ui:composition>
+</html>

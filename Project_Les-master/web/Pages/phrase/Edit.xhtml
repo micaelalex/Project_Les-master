@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditPhraseTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <b:form>
+                <b:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditPhraseLabel_id}" for="id" />
+                    <b:inputText id="id" value="#{phraseController.selected.id}" title="#{bundle.EditPhraseTitle_id}" required="true" requiredMessage="#{bundle.EditPhraseRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditPhraseLabel_creationDate}" for="creationDate" />
+                    <b:inputText id="creationDate" value="#{phraseController.selected.creationDate}" title="#{bundle.EditPhraseTitle_creationDate}" />
+                    <h:outputLabel value="#{bundle.EditPhraseLabel_userName}" for="userName" />
+                    <b:inputText id="userName" value="#{phraseController.selected.userName}" title="#{bundle.EditPhraseTitle_userName}" />
+                    <h:outputLabel value="#{bundle.EditPhraseLabel_accountSubject}" for="accountSubject" />
+                    <b:selectOneMenu id="accountSubject" value="#{phraseController.selected.accountSubject}" title="#{bundle.EditPhraseTitle_accountSubject}" required="true" requiredMessage="#{bundle.EditPhraseRequiredMessage_accountSubject}">
+                        <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                    </b:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditPhraseLabel_accountReceiver}" for="accountReceiver" />
+                    <b:selectOneMenu id="accountReceiver" value="#{phraseController.selected.accountReceiver}" title="#{bundle.EditPhraseTitle_accountReceiver}" >
+                        <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                    </b:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditPhraseLabel_actionID}" for="actionID" />
+                    <b:selectOneMenu id="actionID" value="#{phraseController.selected.actionID}" title="#{bundle.EditPhraseTitle_actionID}" required="true" requiredMessage="#{bundle.EditPhraseRequiredMessage_actionID}">
+                        <f:selectItems value="#{actionController.itemsAvailableSelectOne}"/>
+                    </b:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditPhraseLabel_artefactID}" for="artefactID" />
+                    <b:selectOneMenu id="artefactID" value="#{phraseController.selected.artefactID}" title="#{bundle.EditPhraseTitle_artefactID}" >
+                        <f:selectItems value="#{artefactController.itemsAvailableSelectOne}"/>
+                    </b:selectOneMenu>
+                </b:panelGrid>
+                <b:commandLink action="#{phraseController.update}" value="#{bundle.EditPhraseSaveLink}"/>
+                <br />
+                <br />
+                <b:link outcome="View" value="#{bundle.EditPhraseViewLink}"/>
+                <br />
+                <b:commandLink action="#{phraseController.prepareList}" value="#{bundle.EditPhraseShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <b:link outcome="/index" value="#{bundle.EditPhraseIndexLink}" />
+            </b:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

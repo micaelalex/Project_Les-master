@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListRecurseTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <!-- EXAMPLAR MODAL -->
+                <b:modal id="exampleModal" title="Modal Example" styleClass="modalPseudoClass">
+                        <f:facet name="footer">
+                          <b:button value="Close" dismiss="modal" />
+                          <b:button value="Ok" look="primary" dismiss="modal" />
+                        </f:facet>
+                      </b:modal>
+            
+            <!-- BEGINNING OF PATH -->
+            <p class="small">
+                <b:link outcome="/index" value="GPD"/>/<b:link outcome="" value="tmp"/>/<b:link outcome="/Pages/recurse/List" value="Recurse" />
+            </p>
+            <!-- END OF PATH -->
+            <h:form styleClass="jsfcrud_list_form">
+                <!-- BEGINNING OF RECURSE NAVIGATION -->
+                <!-- Create button -->
+                <b:commandButton type="button" class="btn btn-basic" p:data-toggle="modal" p:data-target="#createModal" action-listener="#{recurseController.prepareCreate}">
+                        <b:iconAwesome value="fa-plus-circle" />
+                        <b>Create</b>
+                </b:commandButton>
+                <!-- Edit button -->
+                <b:commandButton type="button" class="btn btn-basic" p:data-toggle="modal" p:data-target="#editModal" action-listener="">
+                    <span ><b:iconAwesome value="fa-edit" /> </span>
+                    <span style=" text-align:center;"><b>Edit</b></span>
+                </b:commandButton>
+                <!-- Delete button -->
+                <b:commandButton type="button" class="btn btn-basic" p:data-toggle="modal" p:data-target="#deleteModal" action-listener="#{recurseController.destroy}">
+                    <span ><b:iconAwesome value="fa-trash" /> </span>
+                    <span style=" text-align:center;"><b>Delete</b></span>
+                </b:commandButton>
+                <!-- END OF RECURSE NAVIGATION -->
+                <!-- BEGINNING OF RECURSE TABLE -->
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListRecurseEmpty}" rendered="#{recurseController.items.rowCount == 0}"/>
+                    <h:panelGroup rendered="#{recurseController.items.rowCount > 0}" >
+                        <b:dataTable value="#{recurseController.items}" var="items" select="true">
+                            <b:dataTableColumn value="#{items.name}" label="Name"/>
+                        </b:dataTable>
+                    </h:panelGroup>
+                <!-- END OF RECURSE TABLE -->
+                <!-- BEGINNING OF MODALS -->
+                <!-- Create Modal -->
+                <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Create</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <!-- RECURSE CREATION FORM -->
+                            <h:form>
+                                <div class="modal-body">
+                                    <h:outputLabel value="#{bundle.CreateRecurseLabel_name}" for="name" />
+                                    <h:inputText id="name" value="#{recurseController.selected.name}" title="#{bundle.CreateRecurseTitle_name}" />
+                                    <!-- BEGINNING BOTTOM BUTTONS -->
+                                    <div class="modal-footer">
+                                        <span style="float: left">
+                                            <h:commandButton class="btn btn-basic" action="#{recurseController.prepareList}" value="Close" immediate="true"/>
+                                        </span>
+                                        <h:commandButton class="btn btn-primary"  p:data-toggle="modal" p:data-target="#createConfirmationModal" value="Save" />
+                                    </div>
+                                    <!-- END OF BOTTOM BUTTONS -->
+                                </div>
+                            </h:form>
+                            <!-- END OF PRODUCT CREATION FORM -->
+                          </div>
+                        </div>
+                      </div>
+                <!-- Creatiion confirmation modal -->
+                <div class="modal fade" id="createConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to create this recurse?</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <h:form>
+                                <div class="modal-body">
+                                    <span style="float: left">
+                                        <h:commandButton class="btn btn-basic" action="#{recurseController.prepareList}" value="No" immediate="true"/>
+                                    </span>
+                                    <h:commandButton class="btn btn-primary" action="#{recurseController.create}" value="Yes" />
+                                </div>
+                            </h:form>
+                          </div>
+                        </div>
+                      </div>
+                <!-- Edit Modal -->
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <!-- PRODUCT EDITATION FORM -->
+                            <h:form>
+                                <div class="modal-body">
+                                    <b:inputText p:type="hidden" id="id" value="0" title="#{bundle.EditRecurseTitle_id}" required="true" requiredMessage="#{bundle.EditRecurseRequiredMessage_id}"/>
+                                    
+                                    <h:outputLabel value="#{bundle.CreateRecurseLabel_name}" for="name" />
+                                    <b:inputText id="name" value="#{recurseController.selected.name}" title="#{bundle.CreateRecurseTitle_name}" />
+                                    <!-- BEGINNING BOTTOM BUTTONS -->
+                                    <div class="modal-footer">
+                                        <span style="float: left">
+                                            <h:commandButton class="btn btn-basic" action="#{recurseController.prepareList}" value="Close" immediate="true"/>
+                                        </span>
+                                        <h:commandButton class="btn btn-primary" action="#{recurseController.update}" value="#{bundle.CreateRecurseSaveLink}" />
+                                    </div>
+                                    <!-- END OF BOTTOM BUTTONS -->
+                                </div>
+                            </h:form>
+                            <!-- END OF PRODUCT EDITATION FORM -->
+                          </div>
+                        </div>
+                      </div>
+                <!-- END OF MODALS -->
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

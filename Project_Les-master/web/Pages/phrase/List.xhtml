@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    
+    <ui:composition template="/template.xhtml">
+        
+        <ui:define name="title">GPD</ui:define>
+        
+        <ui:define name="body">
+           
+                <b:column span="1"/>
+                <b:column span="7">
+                
+                    <p class="small">
+                        <b:link outcome="/index" value="GPD"/>/<b:link outcome="" value="tmp"/>/<b:link outcome="/Pages/phrase/List" value="Phrase"/>
+                    </p>
+
+                    <h:panelGroup id="messagePanel" layout="block">
+                        <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                    </h:panelGroup>
+                    
+                    <!-- Modal Criar-->
+                      <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Create</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <h:form>
+                                <div class="modal-body">
+                                
+                                    <b:inputText p:type="hidden" id="id" value="0" title="#{bundle.CreatePhraseTitle_id}" required="true" requiredMessage="#{bundle.CreatePhraseRequiredMessage_id}"/>
+
+                                    <h:outputLabel value="Username:" for="userName" />
+                                    <b:inputText id="userName" value="#{phraseController.selected.userName}" title="#{bundle.CreatePhraseTitle_userName}" />
+                                    <h:outputLabel value="Subject*:" for="accountSubject" />
+                                    <b:selectOneMenu id="accountSubject" value="#{phraseController.selected.accountSubject}" title="#{bundle.CreatePhraseTitle_accountSubject}" required="true" requiredMessage="#{bundle.CreatePhraseRequiredMessage_accountSubject}">
+                                        <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                                    </b:selectOneMenu>
+                                    <h:outputLabel value="Action*:" for="actionID" />
+                                    <b:selectOneMenu id="actionID" value="#{phraseController.selected.actionID}" title="#{bundle.CreatePhraseTitle_actionID}" required="true" requiredMessage="#{bundle.CreatePhraseRequiredMessage_actionID}">
+                                        <f:selectItems value="#{actionController.itemsAvailableSelectOne}"/>
+                                    </b:selectOneMenu>
+                                    <h:outputLabel value="Receiver:" for="accountReceiver" />
+                                    <b:selectOneMenu id="accountReceiver" value="#{phraseController.selected.accountReceiver}" title="#{bundle.CreatePhraseTitle_accountReceiver}" >
+                                        <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                                    </b:selectOneMenu>
+                                    <h:outputLabel value="Artefact:" for="artefactID" />
+                                    <b:selectOneMenu id="artefactID" value="#{phraseController.selected.artefactID}" title="#{bundle.CreatePhraseTitle_artefactID}" >
+                                        <f:selectItems value="#{artefactController.itemsAvailableSelectOne}"/>
+                                    </b:selectOneMenu>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <span style="float: left">
+                                        <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-basic" value="Close" immediate="true"> Close </button>
+                                    </span>
+                                    <h:commandButton class="btn btn-primary" action="#{phraseController.create}" value="#{bundle.CreatePhraseSaveLink}" />
+                                </div>
+                            </h:form> 
+                          </div>
+                        </div>
+                      </div>
+                    
+                    
+                    <!-- Modal Editar-->
+                      <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Create</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <h:form>
+                                <div class="modal-body">
+                                
+                                    
+                                    
+                                    
+                                    <h:outputLabel value="Subject*:" for="accountSubject" />
+                                    <b:selectOneMenu id="accountSubject" value="#{phraseController.selected.accountSubject}" title="#{bundle.EditPhraseTitle_accountSubject}" required="true" requiredMessage="#{bundle.EditPhraseRequiredMessage_accountSubject}">
+                                        <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                                    </b:selectOneMenu>
+                                    <h:outputLabel value="Action*:" for="actionID" />
+                                    <b:selectOneMenu id="actionID" value="#{phraseController.selected.actionID}" title="#{bundle.EditPhraseTitle_actionID}" required="true" requiredMessage="#{bundle.EditPhraseRequiredMessage_actionID}">
+                                        <f:selectItems value="#{actionController.itemsAvailableSelectOne}"/>
+                                    </b:selectOneMenu>
+                                    <h:outputLabel value="Receiver:" for="accountReceiver" />
+                                    <b:selectOneMenu id="accountReceiver" value="#{phraseController.selected.accountReceiver}" title="#{bundle.EditPhraseTitle_accountReceiver}" >
+                                        <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                                    </b:selectOneMenu>
+                                    <h:outputLabel value="Artefact:" for="artefactID" />
+                                    <b:selectOneMenu id="artefactID" value="#{phraseController.selected.artefactID}" title="#{bundle.EditPhraseTitle_artefactID}" >
+                                        <f:selectItems value="#{artefactController.itemsAvailableSelectOne}"/>
+                                    </b:selectOneMenu>
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <span style="float: left">
+                                        <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-basic" value="Close" immediate="true"> Close </button>
+                                    </span>
+                                    <h:commandButton class="btn btn-primary" action="#{phraseController.update}" value="#{bundle.EditPhraseSaveLink}" />
+                                </div>
+                            </h:form> 
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <b:modal id="exampleModal" title="Modal Example" styleClass="modalPseudoClass">
+                        <f:facet name="footer">
+                          <b:button value="Close" dismiss="modal" />
+                          <b:button value="Ok" look="primary" dismiss="modal" />
+                        </f:facet>
+                      </b:modal>
+                    
+                    <b:form>
+                        <b:commandButton type="button" class="btn btn-basic" action="#{phraseController.prepareCreate}" p:data-toggle="modal" p:data-target="#createModal" >
+                            <b:iconAwesome value="fa-plus-circle" />
+                            <b>Create</b>
+                        </b:commandButton>
+                        
+                        
+                        <h:panelGroup  rendered="#{phraseController.selectedSize() == 1}">
+
+                            <b:commandButton class="btn btn-basic" p:data-toggle="modal" p:data-target="#editModal">
+                                <span ><b:iconAwesome value="fa-edit" /> </span>
+                                <span class="alignCenter"><b>Edit</b></span>
+                            </b:commandButton>
+                            
+                        </h:panelGroup>
+                        
+                        <h:panelGroup  rendered="#{phraseController.selectedSize() != 0}">
+
+                            <b:commandButton class="btn btn-basic" actionListener="#{phraseController.destroyBetter}">
+                                <span ><b:iconAwesome value="fa-trash" /> </span>
+                                <span class="alignCenter"><b>Delete</b></span>
+                            </b:commandButton>
+                                    
+                        </h:panelGroup>
+
+                    </b:form>
+                    <br/>
+                    
+
+                    <h:outputText escape="false" value="#{bundle.ListPhraseEmpty}" rendered="#{phraseController.items.rowCount == 0}"/>
+                    <h:panelGroup rendered="#{phraseController.items.rowCount > 0 }">
+                        
+                        <br/>
+                        
+                        <b:dataTable  value="#{phraseController.items}" var="phrase" info="false" display="block" >
+                            
+                            <b:dataTableColumn>
+                                <f:facet name="header">
+                                    Select
+                                </f:facet>
+                               
+                                
+                                <h:panelGroup  rendered="#{phraseController.selectedContains(phrase) == true}">
+                                    <h:form>
+                                        <h:commandButton value="Unselect" action="#{phraseController.unselect(phrase)}"/>        
+                                    </h:form>
+                                </h:panelGroup>
+                                
+                                <h:panelGroup  rendered="#{phraseController.selectedContains(phrase) == false}">
+                                    <h:form>
+                                        <h:commandButton value="Select" action="#{phraseController.select}"/>        
+                                    </h:form>
+                                </h:panelGroup>
+                                
+                                
+                            </b:dataTableColumn>
+                            <b:dataTableColumn value="#{phrase.userName}" />
+                            <b:dataTableColumn >
+                                <f:facet name="header">
+                                    Phrase
+                                </f:facet>
+                                #{phrase}
+                            </b:dataTableColumn>
+                            <b:dataTableColumn value="#{phrase.creationDate}" />
+                                
+                            
+                        </b:dataTable>
+                        
+                        <h:outputText value="#{phraseController.current}" rendered="#{phraseController.current != null}"/>
+                        
+                    </h:panelGroup>
+                </b:column>
+                <b:column span="1"/>
+   
+           
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditAccountTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditAccountLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{accountController.selected.id}" title="#{bundle.EditAccountTitle_id}" required="true" requiredMessage="#{bundle.EditAccountRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditAccountLabel_userName}" for="userName" />
+                    <h:inputText id="userName" value="#{accountController.selected.userName}" title="#{bundle.EditAccountTitle_userName}" />
+                    <h:outputLabel value="#{bundle.EditAccountLabel_cc}" for="cc" />
+                    <h:inputText id="cc" value="#{accountController.selected.cc}" title="#{bundle.EditAccountTitle_cc}" />
+                    <h:outputLabel value="#{bundle.EditAccountLabel_password}" for="password" />
+                    <h:inputText id="password" value="#{accountController.selected.password}" title="#{bundle.EditAccountTitle_password}" />
+                    <h:outputLabel value="#{bundle.EditAccountLabel_accountName}" for="accountName" />
+                    <h:inputText id="accountName" value="#{accountController.selected.accountName}" title="#{bundle.EditAccountTitle_accountName}" />
+                    <h:outputLabel value="#{bundle.EditAccountLabel_birthday}" for="birthday" />
+                    <h:inputText id="birthday" value="#{accountController.selected.birthday}" title="#{bundle.EditAccountTitle_birthday}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditAccountLabel_email}" for="email" />
+                    <h:inputText id="email" value="#{accountController.selected.email}" title="#{bundle.EditAccountTitle_email}" />
+                    <h:outputLabel value="#{bundle.EditAccountLabel_address}" for="address" />
+                    <h:inputText id="address" value="#{accountController.selected.address}" title="#{bundle.EditAccountTitle_address}" />
+                    <h:outputLabel value="#{bundle.EditAccountLabel_salary}" for="salary" />
+                    <h:inputText id="salary" value="#{accountController.selected.salary}" title="#{bundle.EditAccountTitle_salary}" />
+                </h:panelGrid>
+                <h:commandLink action="#{accountController.update}" value="#{bundle.EditAccountSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditAccountViewLink}"/>
+                <br />
+                <h:commandLink action="#{accountController.prepareList}" value="#{bundle.EditAccountShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditAccountIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

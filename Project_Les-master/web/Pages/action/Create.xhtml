@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="/template.xhtml">
+        
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateActionTitle}"></h:outputText>
+        </ui:define>
+        
+        <ui:define name="body">
+            
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            
+            <b:form horizontal="true">
+                <b:inputText type="hidden" id="id" value="0"/>
+                <b:inputText type="hidden" id="creationDate" value="#{currentDate}">
+                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
+                </b:inputText>
+                
+                <b:inputText id="name" required="true" label="Name" colMd="10" labelColMd="2" value="#{actionController.selected.name}"/>
+            
+                <b:selectOneMenu id="type" value="#{actionController.selected.type}" colMd="2" required="true" label="Type:" labelColMd="2">
+                    <f:selectItem itemLabel="(Please select)" itemValue="" />
+                    <f:selectItem itemLabel="Productive" itemValue="1" />
+                    <f:selectItem itemLabel="Comunicative" itemValue="2" />
+                </b:selectOneMenu>  
+                
+                <b:selectOneMenu id="accountID" value="#{actionController.selected.accountID}" title="#{bundle.CreateActionTitle_accountID}" required="true" requiredMessage="#{bundle.CreateActionRequiredMessage_accountID}" colMd="2" label="Account:" labelColMd="2">
+                    <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                </b:selectOneMenu>
+                
+                
+                    <b:commandButton style="width:80px" action="#{actionController.prepareList}" value="#{bundle.Cancel}" immediate="true"/>
+                    <b:commandButton look="info" style="width:80px" action="#{actionController.create}" value="#{bundle.CreateActionSaveLink}"/>
+                
+            </b:form>                
+                     
+            
+            
+            
+            
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateActionLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{actionController.selected.id}" title="#{bundle.CreateActionTitle_id}" required="true" requiredMessage="#{bundle.CreateActionRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.CreateActionLabel_name}" for="name" />
+                    <h:inputText id="name" value="#{actionController.selected.name}" title="#{bundle.CreateActionTitle_name}" />
+                    <h:outputLabel value="#{bundle.CreateActionLabel_type}" for="type" />
+                    <h:inputText id="type" value="#{actionController.selected.type}" title="#{bundle.CreateActionTitle_type}" />
+                    <h:outputLabel value="#{bundle.CreateActionLabel_creationDate}" for="creationDate" />
+                    <h:inputText id="creationDate" value="#{actionController.selected.creationDate}" title="#{bundle.CreateActionTitle_creationDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateActionLabel_accountID}" for="accountID" />
+                    <h:selectOneMenu id="accountID" value="#{actionController.selected.accountID}" title="#{bundle.CreateActionTitle_accountID}" required="true" requiredMessage="#{bundle.CreateActionRequiredMessage_accountID}">
+                        <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{actionController.create}" value="#{bundle.CreateActionSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{actionController.prepareList}" value="#{bundle.CreateActionShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateActionIndexLink}"/>
+            </h:form>
+            
+        </ui:define>
+        
+    </ui:composition>
+    
+</html>
+
+
+
+

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewPhraseTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewPhraseLabel_id}"/>
+                    <h:outputText value="#{phraseController.selected.id}" title="#{bundle.ViewPhraseTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewPhraseLabel_creationDate}"/>
+                    <h:outputText value="#{phraseController.selected.creationDate}" title="#{bundle.ViewPhraseTitle_creationDate}"/>
+                    <h:outputText value="#{bundle.ViewPhraseLabel_userName}"/>
+                    <h:outputText value="#{phraseController.selected.userName}" title="#{bundle.ViewPhraseTitle_userName}"/>
+                    <h:outputText value="#{bundle.ViewPhraseLabel_accountSubject}"/>
+                    <h:outputText value="#{phraseController.selected.accountSubject}" title="#{bundle.ViewPhraseTitle_accountSubject}"/>
+                    <h:outputText value="#{bundle.ViewPhraseLabel_accountReceiver}"/>
+                    <h:outputText value="#{phraseController.selected.accountReceiver}" title="#{bundle.ViewPhraseTitle_accountReceiver}"/>
+                    <h:outputText value="#{bundle.ViewPhraseLabel_actionID}"/>
+                    <h:outputText value="#{phraseController.selected.actionID}" title="#{bundle.ViewPhraseTitle_actionID}"/>
+                    <h:outputText value="#{bundle.ViewPhraseLabel_artefactID}"/>
+                    <h:outputText value="#{phraseController.selected.artefactID}" title="#{bundle.ViewPhraseTitle_artefactID}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{phraseController.destroyAndView}" value="#{bundle.ViewPhraseDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewPhraseEditLink}"/>
+                <br />
+                <h:commandLink action="#{phraseController.prepareCreate}" value="#{bundle.ViewPhraseCreateLink}" />
+                <br />
+                <h:commandLink action="#{phraseController.prepareList}" value="#{bundle.ViewPhraseShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewPhraseIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

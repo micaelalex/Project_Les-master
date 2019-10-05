@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewRecurseTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewRecurseLabel_id}"/>
+                    <h:outputText value="#{recurseController.selected.id}" title="#{bundle.ViewRecurseTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewRecurseLabel_name}"/>
+                    <h:outputText value="#{recurseController.selected.name}" title="#{bundle.ViewRecurseTitle_name}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{recurseController.destroyAndView}" value="#{bundle.ViewRecurseDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewRecurseEditLink}"/>
+                <br />
+                <h:commandLink action="#{recurseController.prepareCreate}" value="#{bundle.ViewRecurseCreateLink}" />
+                <br />
+                <h:commandLink action="#{recurseController.prepareList}" value="#{bundle.ViewRecurseShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewRecurseIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

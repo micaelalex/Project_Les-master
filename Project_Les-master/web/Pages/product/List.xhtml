@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListProductTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <!-- EXAMPLAR MODAL -->
+                <b:modal id="exampleModal" title="Modal Example" styleClass="modalPseudoClass">
+                        <f:facet name="footer">
+                          <b:button value="Close" dismiss="modal" />
+                          <b:button value="Ok" look="primary" dismiss="modal" />
+                        </f:facet>
+                      </b:modal>
+            
+            <!-- BEGINNING OF PATH -->
+            <p class="small">
+                <b:link outcome="/index" value="GPD"/>/<b:link outcome="" value="tmp"/>/<b:link outcome="/Pages/product/List" value="Product" />
+            </p>
+            <!-- END OF PATH -->
+            
+            
+            <h:form styleClass="jsfcrud_list_form">
+                <!-- BEGINNING OF PRODUCT NAVIGATION -->
+            <h:panelGroup layout="block" styleClass="mb16 mt16">
+                <!-- create button -->
+                <b:commandButton type="button" class="btn btn-basic" p:data-toggle="modal" p:data-target="#createModal" action-listener="#{productController.prepareCreate}">
+                        <b:iconAwesome value="fa-plus-circle" />
+                        <b>Create</b>
+                </b:commandButton>
+                <!-- BEGGINING OF THE PRODUCT CREATION MODAL -->
+                <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Create</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <!-- PRODUCT CREATION FORM -->
+                            <h:form>
+                                <div class="modal-body">
+                                    <b:inputText p:type="hidden" id="id" value="0" title="#{bundle.CreateProductTitle_id}" required="true" requiredMessage="#{bundle.CreateProductRequiredMessage_id}"/>
+                                    
+                                    <h:outputLabel value="#{bundle.CreateProductLabel_name}" for="name" />
+                                    <b:inputText id="name" value="#{productController.selected.name}" title="#{bundle.CreateProductTitle_name}" />
+                                    
+                                    <h:outputLabel value="#{bundle.CreateProductLabel_description}" for="description" />
+                                    <b:inputTextarea id="description" value="#{productController.selected.description}" title="#{bundle.CreateProductTitle_description}" rows="4" />
+                                    
+                                    <h:outputLabel value="#{bundle.CreateProductLabel_creationDate}" for="creationDate" />
+                                    <b:dateTimePicker id="creationDate" value="#{productController.selected.creationDate}"  disabled="false"/>
+                                    
+                                    <h:outputLabel value="#{bundle.CreateProductLabel_type}" for="type" />
+                                    <b:inputText id="type" value="#{productController.selected.type}" title="#{bundle.CreateProductTitle_type}" />
+                                    
+                                    <b:inputSecret id="accountID" value="#{accountController.currentAccount}" />
+                                    <!--
+                                    <h:outputLabel value="#{bundle.CreateProductLabel_accountID}" for="accountID" />
+                                    <b:selectOneMenu id="accountID" value="#{productController.selected.accountID}" title="#{bundle.CreateProductTitle_accountID}" required="true" requiredMessage="#{bundle.CreateProductRequiredMessage_accountID}">
+                                        <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                                    </b:selectOneMenu>
+                                    -->
+                                    <!-- BEGINNING BOTTOM BUTTONS -->
+                                    <div class="modal-footer">
+                                        <span style="float: left">
+                                            <h:commandButton class="btn btn-basic" action="#{productController.prepareList}" value="Close" immediate="true"/>
+                                        </span>
+                                        <h:commandButton class="btn btn-primary" action="#{productController.create}" value="#{bundle.CreateProductSaveLink}" />
+                                    </div>
+                                    <!-- END OF BOTTOM BUTTONS -->
+                                </div>
+                            </h:form>
+                            <!-- END OF PRODUCT CREATION FORM -->
+                          </div>
+                        </div>
+                      </div>
+                <!-- END OF THE PRODUCT CREATION MODAL -->
+                
+                <!-- END OF EXEMPLAR MODAL -->
+                <!-- edit button -->
+                <h:panelGroup>
+                    <b:commandButton id="editButton" type="button" class="btn btn-basic" p:data-toggle="modal" p:data-target="#editModal" action-listener="">
+                        <span ><b:iconAwesome value="fa-edit" /> </span>
+                        <span style=" text-align:center;"><b>Edit</b></span>
+                    </b:commandButton>
+                    <!-- BEGINNING OF THE PRODUCT EDITATION MODAL -->
+                    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <!-- PRODUCT EDITATION FORM -->
+                                <h:form>
+                                    <div class="modal-body">
+                                        <b:inputText p:type="hidden" id="id" value="0" title="#{bundle.EditProductTitle_id}" required="true" requiredMessage="#{bundle.EditProductRequiredMessage_id}"/>
+
+                                        <h:outputLabel value="#{bundle.CreateProductLabel_name}" for="name" />
+                                        <b:inputText id="name" value="#{productController.selected.name}" title="#{bundle.CreateProductTitle_name}" />
+                                        <h:outputLabel value="#{bundle.CreateProductLabel_description}" for="description" />
+                                        <b:inputTextarea id="description" value="#{productController.selected.description}" title="#{bundle.CreateProductTitle_description}" rows="4" />
+                                        <h:outputLabel value="#{bundle.CreateProductLabel_creationDate}" for="creationDate" />
+                                        <b:dateTimePicker id="creationDate" value="#{productController.selected.creationDate}"  disabled="false"/>
+
+                                        <h:outputLabel value="#{bundle.CreateProductLabel_type}" for="type" />
+                                        <b:inputText id="type" value="#{productController.selected.type}" title="#{bundle.CreateProductTitle_type}" />
+
+                                        <h:outputLabel value="#{bundle.CreateProductLabel_name}" for="activityID" />
+                                        <b:selectOneMenu id="accountID" value="#{activityController.selected.name}" title="#{bundle.CreateProductTitle_accountID}" required="true" requiredMessage="#{bundle.CreateProductRequiredMessage_accountID}">
+                                            <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                                        </b:selectOneMenu>
+                                        <!-- BEGINNING BOTTOM BUTTONS -->
+                                        <div class="modal-footer">
+                                            <span style="float: left">
+                                                <h:commandButton class="btn btn-basic" action="#{productController.prepareList}" value="Close" immediate="true"/>
+                                            </span>
+                                            <h:commandButton class="btn btn-primary" action="#{productController.update}" value="#{bundle.CreateProductSaveLink}" />
+                                        </div>
+                                        <!-- END OF BOTTOM BUTTONS -->
+                                    </div>
+                                </h:form>
+                                <!-- END OF PRODUCT EDITATION FORM -->
+                              </div>
+                            </div>
+                          </div>
+                    <!-- END OF PRODUCT EDIT -->
+                    <!-- delete button -->
+                    <b:commandButton id="deleteButton" type="button" class="btn btn-basic" p:data-toggle="modal" p:data-target="#deleteModal" action-listener="#{productController.destroy}">
+                        <span ><b:iconAwesome value="fa-trash" /> </span>
+                        <span style=" text-align:center;"><b>Delete</b></span>
+                    </b:commandButton>
+                </h:panelGroup>
+            </h:panelGroup>
+            <!-- END OF PRODUCT NAVIGATION -->
+            
+            <!-- BEGINNING OF PRODUCT LIST -->
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListProductEmpty}" rendered="#{productController.items.rowCount == 0}"/>
+                    <h:panelGroup rendered="#{productController.items.rowCount > 0}" >
+                        <h:form>
+                            <b:dataTable value="#{productController.items}" var="items" select="true" 
+                                         >
+                                <b:dataTableColumn value="#{items.name}" label="Name"/>
+                                <b:dataTableColumn value="#{items.description}" label="Description"/>
+                                <b:dataTableColumn value="#{items.creationDate}" label="Creation Date"/>
+                                <b:dataTableColumn value="#{items.type}" label="Type"/>
+                            </b:dataTable>
+                        </h:form>
+                    </h:panelGroup>
+                <!-- END OF PRODUCT TABLE -->
+                <!-- BEGGINING OF BOTTOM BUTTONS -->
+                <!-- END OF BOTTOM BUTTONS -->
+            </h:form>
+            <!-- END OF PRODUCT LIST -->
+        </ui:define>
+    </ui:composition>
+
+</html>

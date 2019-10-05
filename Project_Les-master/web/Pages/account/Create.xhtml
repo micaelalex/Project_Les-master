@@ -1,0 +1,173 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui">
+    <!-- INICIO MODAL DE CANCELAR CRIACAO -->
+    
+    <b:modal id="modalCancelCreate" title="Cancel creation?" styleClass="formCancelCreatedModalClass"
+             closable="false"
+             closeOnEscape="false"
+             backdrop="false">
+        <b:form auto-update="true">
+            <p>If you continue, you will lose creation. Continue?</p>
+            
+            <b:row>
+                <b:column>
+                    <b:commandButton largeScreen="half"  value="Cancel" onclick="$('.formCancelCreatedModalClass').modal('hide'); $('.formCreatedModalClass').modal('show'); return false;"/>
+                    <b:commandButton largeScreen="half"
+                                     value="Continue" look="danger"
+                                     action="#{accountController.prepareList}" immediate="true" />
+                    
+                </b:column>
+            </b:row>
+            <b:fetchBeanInfos />
+        </b:form>
+    </b:modal>
+    
+    <!-- FIM MODAL DE CANCELAR CRIACAO -->
+    
+    
+    <!-- INICIO MODAL DE CONFIRMAR CRIACAO -->
+    
+    <b:modal id="modalConfirmCreate" title="Confirm creation?" styleClass="formConfirmCreatedModalClass"
+             closable="false"
+             closeOnEscape="false"
+             backdrop="false">
+        <b:form auto-update="true">
+            <p>Do you want to confirm account creation?</p>
+            
+            <b:row>
+                <b:column>
+                    <b:commandButton largeScreen="half"  value="Cancel" onclick="$('.formCancelCreatedModalClass').modal('hide'); $('.formCreatedModalClass').modal('show'); return false;"/>
+                    <b:commandButton type="reset" largeScreen="half" update="@all"
+                                     value="Confirm" look="success"
+                                     onclick=" $('.formCancelCreatedModalClass').modal('hide')  "/>
+                    
+                    
+                </b:column>
+            </b:row>
+            <b:fetchBeanInfos />
+        </b:form>
+    </b:modal>
+    
+    <!-- FIM MODAL DE CONFIMAR CRIACAO -->
+    
+    
+    
+    <!-- INICIO DO MODAL CRIAR -->
+    <b:modal id="modalFormCreate" title="Create Account" styleClass="formCreatedModalClass" headerClass="headerModal" headerStyle="headerModal"
+             closable="false"
+             closeOnEscape="false"
+             backdrop="false">
+        <b:form horizontal="true" styleClass="formCreation" auto-update="true">
+            <b:row styleClass="mb8">
+                <b:label text="Account Information" large-screen="full-width" style-class="labelmodal" style="font-size: large;"  />
+            </b:row>
+            <b:row>
+                
+                <h:inputHidden id="id" value="1" required="true" requiredMessage="#{bundle.CreateAccountRequiredMessage_id}"/>
+                
+            </b:row>
+            <!-- Account data -->
+            <b:row>
+                <b:column medium-screen="7">
+                    <b:inputText labelStyle="text-align:left;" colMd="8" labelColMd="4" id="userName" label="#{bundle.CreateAccountLabel_userName}" value="#{accountController.selected.userName}" title="#{bundle.CreateAccountTitle_userName}" required="true" requiredMessage="#{bundle.CreateAccountRequiredMessage_userName}" />
+                </b:column>
+                <b:column medium-screen="5">
+                    <b:message for="@previous" auto-update="true" />
+                </b:column>
+            </b:row>
+            
+            <b:row> 
+                <b:column medium-screen="7">
+                    <b:inputSecret label="#{bundle.CreateAccountLabel_password}" labelStyle="text-align:left;" colMd="8" labelColMd="4" id="password" value="#{accountController.selected.password}" title="#{bundle.CreateAccountTitle_password}" required="true" requiredMessage="#{bundle.CreateAccountRequiredMessage_password}" />
+                </b:column>
+                <b:column medium-screen="5">
+                    <b:message for="@previous" auto-update="true" />
+                </b:column>
+            </b:row>
+            
+            <b:row>
+                <b:column medium-screen="7">
+                    <b:inputText label="#{bundle.CreateAccountLabel_email}" labelStyle="text-align:left;" colMd="8" labelColMd="4" id="email" value="#{accountController.selected.email}" title="#{bundle.CreateAccountTitle_email}" required="true" requiredMessage="#{bundle.CreateAccountRequiredMessage_email}" mask="email" validator-message="The email is not valid." validator="#{accountController.validateByEmail}" >
+                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                    </b:inputText>
+                </b:column>
+                <b:column medium-screen="5">
+                    <b:message for="@previous" auto-update="true" />
+                </b:column>
+            </b:row>
+            <!--END OF ACCOUNT DATA-->
+            
+            <!-- BEGIN OF PERSONAL DATA -->
+            <b:row styleClass="mb8 mt8">
+                <b:label text="Personal Information" large-screen="full-width" style="font-size: large;"/>
+            </b:row>
+            <b:row>
+                <b:column medium-screen="7">
+                    <b:inputText labelStyle="text-align:left;" colMd="8" labelColMd="4" label="#{bundle.CreateAccountLabel_accountName}" id="accountName" value="#{accountController.selected.accountName}" title="#{bundle.CreateAccountTitle_accountName}" required="true" requiredMessage="#{bundle.CreateAccountRequiredMessage_accountName}"/>
+                </b:column>
+                <b:column medium-screen="5">
+                    <b:message for="@previous" auto-update="true" />
+                </b:column>
+            </b:row>
+            
+            <b:row>
+                <b:column medium-screen="7">
+                    <b:inputText label="#{bundle.CreateAccountLabel_cc}" mask="numeric" labelStyle="text-align:left;" colMd="8" labelColMd="4" id="cc" value="#{accountController.selected.cc}" title="#{bundle.CreateAccountTitle_cc}" />
+                </b:column>
+                <b:column medium-screen="5">
+                    <b:message for="@previous" auto-update="true" />
+                </b:column>
+            </b:row>
+            
+            <b:row>
+                <b:column medium-screen="7">
+                    <b:datepicker changeMonth="true" changeYear="true" showButtonPanel="true" label="#{bundle.CreateAccountLabel_birthday}" labelStyle="text-align:left;" colMd="8" labelColMd="4" id="birthday"  mode="popup-icon" value="#{accountController.selected.birthday}"/>
+                </b:column>
+                <b:column medium-screen="5">
+                    <b:message for="@previous" auto-update="true" />
+                </b:column>
+            </b:row>
+            
+            <b:row>
+                <b:column medium-screen="7">
+                    <b:inputText label="#{bundle.CreateAccountLabel_address}" id="address" labelStyle="text-align:left;" colMd="8" labelColMd="4" value="#{accountController.selected.address}" title="#{bundle.CreateAccountTitle_address}" />
+                </b:column>
+                <b:column medium-screen="5">
+                    <b:message for="@previous" auto-update="true" />
+                </b:column>
+            </b:row>
+            
+            <b:row>
+                <b:column medium-screen="7">
+                    <b:inputText label="#{bundle.CreateAccountLabel_salary} (€)" mask="numeric" id="salary" labelStyle="text-align:left;" colMd="8" labelColMd="4" value="#{accountController.selected.salary}" title="#{bundle.CreateAccountTitle_salary}" />
+                </b:column>
+                <b:column medium-screen="5">
+                    <b:message for="@previous" auto-update="true" />
+                </b:column>
+            </b:row>
+            <!--END OF PERSONAL DATA -->
+            <b:row>
+                <b:column>
+                    <b:commandButton largeScreen="half"  value="Cancel" 
+                                     onclick=" $('.formCreatedModalClass').modal('hide'); $('.formCancelCreatedModalClass').modal('show'); return false;  "/>
+                    <b:commandButton largeScreen="half" update="@none"
+                                     value="Create and Save" look="primary"
+                                     oncomplete="if(!validationFailed) { $('.formCreatedModalClass').modal('hide'); location.reload() } "
+                                     action="#{accountController.create}"
+                                     />
+                </b:column>
+            </b:row>
+            <b:fetchBeanInfos />
+            
+        </b:form>
+    </b:modal>
+    
+    <!-- FIM DO MODAL CRIAR -->
+    
+    
+</ui:composition>
+

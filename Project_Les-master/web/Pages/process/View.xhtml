@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewProcessTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewProcessLabel_id}"/>
+                    <h:outputText value="#{processController.selected.id}" title="#{bundle.ViewProcessTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewProcessLabel_description}"/>
+                    <h:outputText value="#{processController.selected.description}" title="#{bundle.ViewProcessTitle_description}"/>
+                    <h:outputText value="#{bundle.ViewProcessLabel_name}"/>
+                    <h:outputText value="#{processController.selected.name}" title="#{bundle.ViewProcessTitle_name}"/>
+                    <h:outputText value="#{bundle.ViewProcessLabel_creationDate}"/>
+                    <h:outputText value="#{processController.selected.creationDate}" title="#{bundle.ViewProcessTitle_creationDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewProcessLabel_accountID}"/>
+                    <h:outputText value="#{processController.selected.accountID}" title="#{bundle.ViewProcessTitle_accountID}"/>
+                    <h:outputText value="#{bundle.ViewProcessLabel_organizationID}"/>
+                    <h:outputText value="#{processController.selected.organizationID}" title="#{bundle.ViewProcessTitle_organizationID}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{processController.destroyAndView}" value="#{bundle.ViewProcessDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewProcessEditLink}"/>
+                <br />
+                <h:commandLink action="#{processController.prepareCreate}" value="#{bundle.ViewProcessCreateLink}" />
+                <br />
+                <h:commandLink action="#{processController.prepareList}" value="#{bundle.ViewProcessShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewProcessIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

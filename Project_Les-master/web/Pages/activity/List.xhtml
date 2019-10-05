@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListActivityTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+            <!--  MINHA TABELA -->
+            <h:form styleClass="jsfcrud_list_form">
+
+                <b:column span="11">
+
+                    <!-- BEGIN PATH -->
+                    <p class="small">
+                        <b:link outcome="/index" value="GPD"/>/<b:link outcome="" value="tmp"/>/<b:link outcome="/Pages/activity/List" value="Activity"/>
+                    </p>
+                    <!-- END PATH -->
+
+                    <!-- BEGIN BOTOES -->
+                    <h:panelGroup layout="block" styleClass="mb16 mt16">
+                        <b:button onclick="$('.formCreatedModalClass').modal('show')" value="Create" iconAwesome="fa-plus-circle" class="btn btn-basic" styleClass="mr4"/>
+
+                        
+                        <b:commandButton class="btn btn-basic" styleClass="mr4" action="#{activityController.prepareCreate}">
+                            <span ><b:iconAwesome value="fa-edit" /> </span>
+                            <span style=" text-align:center;"><b>Edit</b></span>
+                        </b:commandButton>
+
+                        <b:commandButton class="btn btn-basic" styleClass="mr4"  action="#{activityController.destroy}">
+                            <span ><b:iconAwesome value="fa-trash" /> </span>
+                            <span style=" text-align:center;"><b>Delete</b></span>
+                        </b:commandButton>
+                        
+                        <!-- 
+                            Adicionado por Martim
+                        -->
+                        
+                        <b:commandButton type="button" class="btn btn-basic" p:data-toggle="modal" p:data-target="#associateFunctionModal" action-listener="">
+                            <span ><b:iconAwesome value="fa-edit" /> </span>
+                            <span style=" text-align:center;"><b>Associate Function</b></span>
+                        </b:commandButton>
+                        <b:commandButton class="btn btn-basic" styleClass="mr4"  action="#{activityController.prepareAssociateFunction}">
+                            <span ><b:iconAwesome value="fa-plus-circle" /> </span>
+                            <span style=" text-align:center;"><b>Associate Product</b></span>
+                        </b:commandButton>
+
+                    </h:panelGroup>
+                    <!-- END BOTOES -->
+
+                    <h:outputText escape="false" value="#{bundle.ListActivityEmpty}" rendered="#{activityController.items.rowCount == 0}"/>
+                    <h:panelGroup rendered="#{activityController.items.rowCount > 0}" >
+                        <b:dataTable value="#{activityController.items}" var="items" select="true">
+                            <b:dataTableColumn value="#{items.id}" label="ID"/>
+                            <b:dataTableColumn value="#{items.name}" label="Name"/>
+                            <b:dataTableColumn value="#{items.description}" label="Description"/>
+                            <b:dataTableColumn value="#{items.creationDate}" label="Creation Date"/>
+                            <b:dataTableColumn value="#{items.accountID}" label="Account ID"/>
+                            <b:dataTableColumn value="#{items.activityID}" label="Activity ID"/>
+                            <b:dataTableColumn value="#{items.processID}" label="Process ID"/>
+                        </b:dataTable>
+                    </h:panelGroup>
+
+                </b:column>
+
+            </h:form>
+
+            <!-- FIM DA MINHA TABELA --> 
+
+            <!-- INICIO DO MODAL CRIAR -->           
+            <b:modal title="Create Activity" styleClass="formCreatedModalClass" headerClass="headerModal"
+                     closable="true"
+                     closeOnEscape="false"
+                     backdrop="false">
+                <b:form horizontal="true">
+                    <!-- ID -->
+                    <b:row>
+
+                        <h:inputHidden id="id" value="1" required="true" requiredMessage="#{bundle.CreateActivityRequiredMessage_id}"/>
+
+                    </b:row>
+                    <!-- NAME -->        
+                    <b:row>
+                        <b:column medium-screen="7">
+                            <b:inputText labelStyle="text-align:left;" colMd="8" labelColMd="4" id="name" label="#{bundle.CreateActivityLabel_name}" value="#{activityController.selected.name}" title="#{bundle.CreateActivityTitle_name}" required="true" requiredMessage="#{bundle.CreateActivityRequiredMessage_name}" />
+                        </b:column>
+                        <b:column medium-screen="5">
+                            <b:message for="@previous" auto-update="true" />
+                        </b:column>
+                    </b:row>
+                    <!-- DESCRIPTION --> 
+                    <b:row>
+                        <b:column medium-screen="7">
+                            <b:inputTextarea label="#{bundle.CreateActivityLabel_description}" id="description" labelStyle="text-align:left;" colMd="8" labelColMd="4" value="#{activityController.selected.description}" title="#{bundle.CreateActivityTitle_description}" />
+                        </b:column>
+                        <b:column medium-screen="5">
+                            <b:message for="@previous" auto-update="true" />
+                        </b:column>
+                    </b:row>
+                    <!-- CREATION DATE -->  
+                                    <b:inputText type="hidden" id="creationDate" value="#{currentDate}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" type="date"/>
+                </b:inputText>
+                    <!-- ACCOUNT ID -->
+                    <b:row>
+                        <b:column medium-screen="7">
+                            <b:selectOneMenu id="accountID" value="#{activityController.selected.accountID}" colMd="8" labelStyle="text-align:left;" labelColMd="4" required="true" requiredMessage="#{bundle.CreateActivityRequiredMessage_accountID}" label="Account:" title="#{bundle.CreateActivityTitle_accountID}">                     
+                                <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                            </b:selectOneMenu>
+                        </b:column>
+                        <b:column medium-screen="5">
+                            <b:message for="@previous" auto-update="true" />
+                        </b:column>
+                    </b:row>
+
+                    <br />
+                    <h:commandLink action="#{activityController.create}" value="#{bundle.CreateActivitySaveLink}" />
+                    <br />
+                    <br />
+                    <h:commandLink action="#{activityController.prepareList}" value="#{bundle.CreateActivityShowAllLink}" immediate="true"/>
+                    <br />
+                    <br />
+                    <h:link outcome="/index" value="#{bundle.CreateActivityIndexLink}"/>
+
+                </b:form>
+            </b:modal>
+
+            <!-- FIM DO MODAL CRIAR -->
+
+            
+            <!--
+                Os modals seguintes estão relacionados com a associação de produtos e de papeis.
+            -->
+
+            
+            <!-- Modal de associação de papeis -->
+                <div class="modal fade" id="associateFunctionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Associate function</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <h:form>
+                                <div class="modal-body">
+                                    
+                                    <!--
+                                        Selecting activity (Debug only!)
+                                    -->
+                                    <p>The following field is for debugging purposes only!</p>
+                                    <h:outputLabel value="Activity name" for="activityName" />
+                                    <b:selectOneMenu id="account" value="#{activityController.selected.name}" title="#{bundle.CreateActivityTitle_name}" required="true" requiredMessage="#{bundle.CreateActivityRequiredMessage_name}">
+                                        <f:selectItems value="#{activityController.itemsAvailableSelectOne}"/>
+                                    </b:selectOneMenu>
+                                    
+                                    <!--
+                                        Selecting function
+                                    -->
+                                    <h:outputLabel value="Function name" for="activityName" />
+                                    <b:selectOneMenu id="function" value="#{function1Controller.selected.name}" title="#{bundle.CreateFunction1Title_name}" required="true" requiredMessage="#{bundle.CreateFunction1RequiredMessage_name}">
+                                        <f:selectItems value="#{function1Controller.itemsAvailableSelectOne}"/>
+                                    </b:selectOneMenu>
+                                    
+                                    <!--
+                                        Botões do fundo do modal
+                                    -->
+                                    <div class="modal-footer">
+                                        <span style="float: left">
+                                            <h:commandButton class="btn btn-basic" action="#{productController.prepareList}" value="Close" immediate="true"/>
+                                        </span>
+                                        <h:commandButton class="btn btn-primary" action="Associate function" value="#{activityController.associateFunctionToActivity(activity, function)}" />
+                                    </div>
+                                </div>
+                            </h:form>
+                          </div>
+                        </div>
+                      </div>
+            
+            
+            <!-- Modal de associação de produtos -->
+            
+            
+            
+        </ui:define>
+    </ui:composition>
+
+</html>

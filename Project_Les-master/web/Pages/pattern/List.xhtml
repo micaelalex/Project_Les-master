@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">GPD</ui:define>
+        
+        <ui:define name="body">
+            <b:form styleClass="">
+                
+                <b:column span="1"/>
+                <b:column span="7">
+
+                <h:panelGroup id="messagePanel" layout="block">
+                    <b:row>
+                        <b:messages only-most-severe="true" large-screen="full-width" errorStyle="color: red" infoStyle="color: green"/>
+                    </b:row>
+                </h:panelGroup>
+                
+                    <b:commandButton type="button" class="btn btn-basic" p:data-toggle="modal" p:data-target="#createModal" action-listener="#{phraseController.prepareCreate}">
+                        <b:iconAwesome value="fa-plus-circle"/>
+                        <b>Create</b>
+                    </b:commandButton>
+                    
+                    <b:commandButton type="button" class="btn btn-basic" style="margin-left: 4px;" p:data-toggle="modal" p:data-target="#editModal" action-listener="#{phraseController.prepareEdit}">
+                        <span ><b:iconAwesome value="fas fa-edit"/> </span>
+                        <span style="text-align:center;"><b>Edit</b></span>
+                    </b:commandButton>
+                    
+                    <b:commandButton type = "button" class="btn btn-basic" style="margin-left: 4px;" p:data-toggle="modal" p:data-target="#deleteConfirmation" action-listener="#{patternController.destroyAll}">
+                        <span ><b:iconAwesome value="fas fa-trash"/> </span>
+                        <span style="text-align:center;"><b>Delete</b></span>
+                    </b:commandButton>
+                    
+                    <div class="modal fade" id="deleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel"> Confirm Delete
+                                    <span>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">
+                                                <!--&times;-->
+                                            </span>
+                                        </button>
+                                    </span>
+                                </h5>
+                            </div>
+                            <h:form>
+                                <div class="modal-body" style="margin-left: 35%;">
+                                    <h4>Confirm delete?</h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <b:button value="Cancel" dismiss="modal" />
+                                    <b:commandButton class="btn btn-basic" style="margin-right: 4px;" look="success" action="#{patternController.destroyAll}">
+                                        <span ><b:iconAwesome value="fas fa-edit"/> </span>
+                                        <span style="text-align:center;"><b>Confirm</b></span>
+                                    </b:commandButton>
+                                </div>
+                            </h:form> 
+                          </div>
+                        </div>
+                      </div>
+                
+                <br />
+                
+                <h:outputText escape="false" value="#{bundle.ListPatternEmpty}" rendered="#{patternController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{patternController.items.rowCount > 0}">
+                    
+                    <h:outputText value="#{patternController.pagination.pageFirstItem + 1}..#{patternController.pagination.pageLastItem + 1}/#{patternController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{patternController.previous}" value="#{bundle.Previous} #{patternController.pagination.pageSize}" rendered="#{patternController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{patternController.next}" value="#{bundle.Next} #{patternController.pagination.pageSize}" rendered="#{patternController.pagination.hasNextPage}"/>&nbsp;
+                    
+                    <b:dataTable 
+                        value="#{patternController.items}" 
+                        var="item"  
+                        select="true" 
+                        scroll-x="false"
+                        ajax="true"
+                        onselect="ajax:patternController.selectPattern();"
+                        ondeselect="ajax:patternController.unselectPattern();">
+                       
+                        <b:dataTableColumn value="#{item.name}"/>
+                        <b:dataTableColumn value="#{item.description}"/>    
+                        <b:dataTableColumn value="#{item.creationDate}" label="Creation Date" order="desc"/>
+                        <b:dataTableColumn value="#{item.picture}"/>
+                        <b:dataTableColumn value="#{item.accountID}"/>
+                      </b:dataTable>
+                </h:panelGroup>
+                
+                <br/>
+                <b:button class="btn btn-basic" outcome="/index" value="Main Menu" iconAwesome="home"/>
+                <br/>
+                
+                </b:column>
+                <b:column span="1"/>
+                
+           </b:form>
+            <ui:include src="/Pages/pattern/Create.xhtml" />
+            
+            
+
+            
+        </ui:define>
+    </ui:composition>
+</html>

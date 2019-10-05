@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditActivityTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditActivityLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{activityController.selected.id}" title="#{bundle.EditActivityTitle_id}" required="true" requiredMessage="#{bundle.EditActivityRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditActivityLabel_name}" for="name" />
+                    <h:inputText id="name" value="#{activityController.selected.name}" title="#{bundle.EditActivityTitle_name}" />
+                    <h:outputLabel value="#{bundle.EditActivityLabel_description}" for="description" />
+                    <h:inputText id="description" value="#{activityController.selected.description}" title="#{bundle.EditActivityTitle_description}" />
+                    <h:outputLabel value="#{bundle.EditActivityLabel_creationDate}" for="creationDate" />
+                    <h:inputText id="creationDate" value="#{activityController.selected.creationDate}" title="#{bundle.EditActivityTitle_creationDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditActivityLabel_accountID}" for="accountID" />
+                    <h:selectOneMenu id="accountID" value="#{activityController.selected.accountID}" title="#{bundle.EditActivityTitle_accountID}" required="true" requiredMessage="#{bundle.EditActivityRequiredMessage_accountID}">
+                        <f:selectItems value="#{accountController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditActivityLabel_activityID}" for="activityID" />
+                    <h:selectOneMenu id="activityID" value="#{activityController.selected.activityID}" title="#{bundle.EditActivityTitle_activityID}" >
+                        <f:selectItems value="#{activityController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditActivityLabel_processID}" for="processID" />
+                    <h:selectOneMenu id="processID" value="#{activityController.selected.processID}" title="#{bundle.EditActivityTitle_processID}" >
+                        <f:selectItems value="#{processController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{activityController.update}" value="#{bundle.EditActivitySaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditActivityViewLink}"/>
+                <br />
+                <h:commandLink action="#{activityController.prepareList}" value="#{bundle.EditActivityShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditActivityIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

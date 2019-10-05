@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListUserTypeTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListUserTypeEmpty}" rendered="#{userTypeController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{userTypeController.items.rowCount > 0}">
+                    <h:outputText value="#{userTypeController.pagination.pageFirstItem + 1}..#{userTypeController.pagination.pageLastItem + 1}/#{userTypeController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{userTypeController.previous}" value="#{bundle.Previous} #{userTypeController.pagination.pageSize}" rendered="#{userTypeController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{userTypeController.next}" value="#{bundle.Next} #{userTypeController.pagination.pageSize}" rendered="#{userTypeController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{userTypeController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUserTypeTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUserTypeTitle_role}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.role}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUserTypeTitle_accountID}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.accountID}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{userTypeController.prepareView}" value="#{bundle.ListUserTypeViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{userTypeController.prepareEdit}" value="#{bundle.ListUserTypeEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{userTypeController.destroy}" value="#{bundle.ListUserTypeDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{userTypeController.prepareCreate}" value="#{bundle.ListUserTypeCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListUserTypeIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
